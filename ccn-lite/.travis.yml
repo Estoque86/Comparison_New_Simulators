@@ -1,0 +1,38 @@
+language: c
+
+os:
+        - linux
+        - osx
+
+env:
+        - USE_NFN=1 CCNL_HOME="/home/travis/build/cn-uofbasel/ccn-lite" PATH=$PATH:"$CCNL_HOME/bin"
+        # Add USE_NACK when fixed
+
+compiler:
+        - clang
+        - gcc
+
+branches:
+        only:
+                - master
+                - dev-master
+
+install:
+        - sudo apt-get update -y
+        - sudo apt-get install -y libssl-dev build-essential
+#        - sudo apt-get install linux-headers-$(uname -r)
+
+script:
+        - cd $CCNL_HOME/src
+
+        # Run build-test.sh
+        - make clean
+        - ./build-test.sh VERBOSE=1 echo-cores bt-relay bt-all bt-pkt bt-demo-ccnb bt-demo-ccnx2015 bt-demo-iot2014 bt-demo-ndn2013 # bt-lnxkernel and bt-demo-cisco2015 removed because they fail
+
+        # Build again for test scripts
+        - make clean
+        - make -j8 all
+
+        # Run nfn_test script
+        - cd $CCNL_HOME/test/scripts/nfn
+        - ./nfn_test.sh #Reenable ccnx, cisco format is fixed
