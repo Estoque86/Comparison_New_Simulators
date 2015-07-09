@@ -1,0 +1,16 @@
+#option value
+dci 0 
+sim_length 500000
+output outputfile
+queue_discipline FIFO
+cache AUTO
+startup 0
+req_order SEQ
+flow_controller RAQM 0.2 0.2 1 10 source
+PIT_timer 1
+filtering NO
+workload my.wl
+classes_stat 20
+routing routing.dist
+forwarding RND
+topology topo.brite

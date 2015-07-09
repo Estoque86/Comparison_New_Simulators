@@ -1,0 +1,15 @@
+dci 0
+sim_length 120000
+output outputfile 
+queue_discipline FIFO
+cache NO 
+startup 0
+req_order RND
+flow_controller RAQM 0.02 0.01 1 10 source
+PIT_timer 1                            
+filtering NO                            
+workload my.wl
+classes_stat 20
+routing routing.dist
+forwarding BALANCE
+topology topo.brite

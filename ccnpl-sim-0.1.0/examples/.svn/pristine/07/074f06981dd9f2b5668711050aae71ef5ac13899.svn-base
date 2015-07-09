@@ -1,0 +1,2 @@
+#Legend
+#time | CLOSED SOCKET node_id | content_name+port_id | delivery_time | file_size[bit] | VRTT[s] | delay[s] | CLASS popularity | opened_sockets | avg_win
