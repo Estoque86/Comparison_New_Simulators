@@ -1,0 +1,11 @@
+language: cpp
+compiler:
+  - gcc
+notifications:
+  email:
+    on_success: always
+    on_failure: always
+before_install:
+  - travis_retry sudo apt-get install -qq libboost1.48-all-dev libcrypto++-dev libsqlite3-dev
+script:
+  - ./.jenkins
