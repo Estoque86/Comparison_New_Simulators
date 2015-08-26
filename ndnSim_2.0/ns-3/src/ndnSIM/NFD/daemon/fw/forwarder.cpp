@@ -105,6 +105,7 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
       csMatch = match.get();
     }
     if (csMatch != 0) {
+      NS_LOG_UNCOND(Simulator::Now() << "\t HIT \t" << interest.getName());
       const_cast<Data*>(csMatch)->setIncomingFaceId(FACEID_CONTENT_STORE);
       // XXX should we lookup PIT for other Interests that also match csMatch?
 
