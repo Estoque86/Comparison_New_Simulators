@@ -115,24 +115,26 @@ main(int argc, char* argv[])
 
   // Creating nodes
   NodeContainer nodes;
-  nodes.Create(3);
+  //nodes.Create(3);
+  nodes.Create(1);
 
   // Connecting nodes using two links
-  PointToPointHelper p2p;
-  p2p.Install(nodes.Get(0), nodes.Get(1));
-  p2p.Install(nodes.Get(1), nodes.Get(2));
+  //PointToPointHelper p2p;
+  //p2p.Install(nodes.Get(0), nodes.Get(1));
+  //p2p.Install(nodes.Get(1), nodes.Get(2));
 
   // Install NDN stack on all nodes
   ndn::StackHelper ndnHelper;
   ndnHelper.SetDefaultRoutes(true);
   //ndnHelper.InstallAll();
 
-  ndnHelper.SetOldContentStore("ns3::ndn::cs::Nocache");
-  ndnHelper.Install(nodes.Get(0)); // Consumer
-  ndnHelper.Install(nodes.Get(2)); // Producer
+  //ndnHelper.SetOldContentStore("ns3::ndn::cs::Nocache");
+  //ndnHelper.Install(nodes.Get(0)); // Consumer
+  //ndnHelper.Install(nodes.Get(2)); // Producer
 
   ndnHelper.SetOldContentStore("ns3::ndn::cs::Lru", "MaxSize", cacheSizeStr);
-  ndnHelper.Install(nodes.Get(1)); // Router
+  //ndnHelper.Install(nodes.Get(1)); // Router
+  ndnHelper.Install(nodes.Get(0)); // Router
 
   // Choosing forwarding strategy
   ndn::StrategyChoiceHelper::InstallAll("/prefix", "/localhost/nfd/strategy/broadcast");
@@ -156,7 +158,8 @@ main(int argc, char* argv[])
   // Producer will reply to all requests starting with /prefix
   producerHelper.SetPrefix("/prefix");
   producerHelper.SetAttribute("PayloadSize", StringValue("1024"));
-  producerHelper.Install(nodes.Get(2)); // last node
+  //producerHelper.Install(nodes.Get(2)); // last node
+  producerHelper.Install(nodes.Get(0)); // last node
 
   Simulator::Stop (Seconds (simDuration));
 
