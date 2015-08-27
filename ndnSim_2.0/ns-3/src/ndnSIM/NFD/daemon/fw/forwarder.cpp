@@ -105,9 +105,9 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
       csMatch = match.get();
     }
     if (csMatch != 0) {
-      //NS_LOG_UNCOND(time::steady_clock::now() << "\t HIT \t" << interest.getName());
+      // *** HIT EVENT ***
       std::cout << "\t HIT \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
-      //std::cout << "\t HIT \t" << interest.Print() << std::endl;
+      
       const_cast<Data*>(csMatch)->setIncomingFaceId(FACEID_CONTENT_STORE);
       // XXX should we lookup PIT for other Interests that also match csMatch?
 
@@ -122,8 +122,14 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
       this->onOutgoingData(*csMatch, inFace);
       return;
     }
+
+    // *** MISS EVENT ***
+    std::cout << "\t MISS \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
   }
 
+  // *** MISS EVENT ***
+  std::cout << "\t MISS \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
+  
   // insert InRecord
   pitEntry->insertOrUpdateInRecord(inFace.shared_from_this(), interest);
 
