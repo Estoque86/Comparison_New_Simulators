@@ -106,7 +106,8 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
     }
     if (csMatch != 0) {
       //NS_LOG_UNCOND(time::steady_clock::now() << "\t HIT \t" << interest.getName());
-      std::cout << time::steady_clock::now() << "\t HIT \t" << interest.getName() << std::endl;
+      //std::cout << "\t HIT \t" << interest.getName() << std::endl;
+      std::cout << "\t HIT \t" << interest.Print() << std::endl;
       const_cast<Data*>(csMatch)->setIncomingFaceId(FACEID_CONTENT_STORE);
       // XXX should we lookup PIT for other Interests that also match csMatch?
 
