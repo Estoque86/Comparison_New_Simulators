@@ -176,6 +176,8 @@ def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
     
     #caches = [v for v in topology.nodes() if deg[v] > 2] # 19 nodes
     cache = nodes[1]
+
+    topology.graph['icr_candidates'] = set(cache)
     
     # attach sources to topology
     #source_attachments = [v for v in topology.nodes() if deg[v] == 2] # 13 nodes
