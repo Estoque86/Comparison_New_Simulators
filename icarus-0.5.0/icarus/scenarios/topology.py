@@ -214,7 +214,9 @@ def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
     
     # set weights and delays on all links
     fnss.set_weights_constant(topology, 1.0)
-    fnss.set_delays_constant(topology, internal_link_delay, 'ms')
+    #fnss.set_delays_constant(topology, internal_link_delay, 'ms')
+    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms')
+
     
     # label links as internal or external
     #for u, v in topology.edges():
@@ -228,7 +230,8 @@ def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
     
     topology.edge[source_attachment][source]['type'] = 'external'
     fnss.set_weights_constant(topology, 1000.0, [(source_attachment, source)])
-    fnss.set_delays_constant(topology, external_link_delay, 'ms', [(source_attachment, source)])
+    #fnss.set_delays_constant(topology, external_link_delay, 'ms', [(source_attachment, source)])
+    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms', [(source_attachment, source)])
     topology.edge[receiver][cache]['type'] = 'internal'
     #topology.edge[router][cache]['type'] = 'internal'
     
