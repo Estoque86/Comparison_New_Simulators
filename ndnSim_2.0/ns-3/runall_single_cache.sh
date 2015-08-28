@@ -17,7 +17,7 @@ C=0.01
 M=10000
 #L=200
 #simDuration=5000
-req=10000000
+req=100000000
 
 for k in 0.8 1 1.2
 do
