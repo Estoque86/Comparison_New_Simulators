@@ -506,7 +506,7 @@ class LeaveCopyEverywhere(Strategy):
                     serving_node = v
                     print('%s\t0\t%s' % (content, v))
                     break
-                else
+                else:
                     print('%s\t1\t%s' % (content, v))
             # No cache hits, get content from source
             self.controller.get_content(v)
