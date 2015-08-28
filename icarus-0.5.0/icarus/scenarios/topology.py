@@ -261,7 +261,7 @@ def topology_tree(k, h, delay=1, **kwargs):
 
 
 @register_topology_factory('SINGLE_CACHE')
-def topology_single_cache(n=3,nc=0.01, **kwargs):
+def topology_single_cache(n=2,nc=0.01, **kwargs):
 
     
     T = 'SINGLE_CACHE' # name of the topology
@@ -272,13 +272,20 @@ def topology_single_cache(n=3,nc=0.01, **kwargs):
             
     receivers = [0]
     routers = [1]
-    sources = [2]
+    #sources = [2]
     
+    source_attachment = routers[0];
+    source = source_attachment + 1000
+    topology.add_edge(source_attachment, source)
+
+    sources = [source]
 
     topology.graph['icr_candidates'] = set(routers)
     
-    for v in sources:
-        fnss.add_stack(topology, v, 'source')
+    fnss.add_stack(topology, source, 'source')
+
+    #for v in sources:
+    #    fnss.add_stack(topology, v, 'source')
     for v in receivers:
         fnss.add_stack(topology, v, 'receiver')
     for v in routers:
