@@ -285,9 +285,15 @@ def topology_single_cache(n=3,nc=0.01, **kwargs):
         fnss.add_stack(topology, v, 'router')
     
     fnss.set_weights_constant(topology, 1.0)
-    fnss.set_delays_constant(topology, 1, 'ms')
+    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms')
     for u, v in topology.edges_iter():
-        topology.edge[u][v]['type'] = 'internal'
+        if u in sources or v in sources:
+            topology.edge[u][v]['type'] = 'external'
+            # this prevents sources to be used to route traffic
+            fnss.set_weights_constant(topology, 1000.0, [(u, v)])
+            fnss.set_delays_constant(topology, EXTERNAL_LINK_DELAY, 'ms', [(u, v)])
+        else:
+            topology.edge[u][v]['type'] = 'internal'
 
     C = str(nc)
     fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
