@@ -12,12 +12,6 @@ M=10000
 lam=4
 #simDuration=5000
 #req=1000000
-
-
-    let "simDuration = $req / $lam"
-    echo $simDuration
-    let "realReq = $simDuration * $lam"
-    echo $realReq
     
 for alpha in 1
 do
