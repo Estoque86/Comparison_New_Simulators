@@ -6,13 +6,13 @@
 %A = input ('Input the Zipf Exponent: ');
 %R = input ('Input the number of runs: ');
 
-% STRINGHE 
+% STRING 
 
-stringOutput = 'DATA_T=SINGLE_CACHE_RUNS_REQ_=100000000.mat';
+stringOutput = 'DATA_SIM=ndnSIM_T=SINGLE_CACHE_RUNS_M=1e4_R=1e6_A=1.mat';
 
 simulatorStr = cell(1,4);
 simulatorStr{1} = 'CCNSIM';
-simulatorStr{2} = 'NDNSIM';
+simulatorStr{2} = 'ndnSIM';
 simulatorStr{3} = 'ICARUS';
 simulatorStr{4} = 'CCNPL';
 
@@ -43,16 +43,16 @@ alphaStrCompl{4} = 'alpha_12';
 alphaValues = [0.6 0.8 1 1.2];
 
 simRuns = 10;
-numRequests = 100100000;
-officialNumRequests = 100000000;
-reqStr = '100000000';
+numRequests = 1001000;
+officialNumRequests = 1000000;
+reqStr = '1000000';
 catalog = 10000;
 IDs = 1:catalog;
 target = 100;
 
 tStudent = [1.2 6.314 2.920 2.353 2.132 2.015 1.943 1.895 1.860 1.833 1.812 1.796];
 
-% Valori effettivi dei parametri simulati (servono a prendere le stringhe
+% Effective values of simulated parameters
 
 numSimulators = [2];
 numScenarios = [1];
@@ -77,14 +77,14 @@ for g=1:length(numAlphas)
 end
 
 
-% Dichiarazione STRUCT per import
+% Declaring structs for import
 
 scenarioImport = struct;
 contentID = struct;
 hitDistance = struct;
 limitRequests = struct;
 
-% Inizializzazione Matrici per ContentID e HitDistance
+% Initialization
 for g = 1:length(numAlphas)
     for j = 1:length(numSimulators)
         contentID.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(numRequests, simRuns);
@@ -93,8 +93,8 @@ for g = 1:length(numAlphas)
     end
 end
 
-
-folder='/home/tortelli/ndn-simulator-comparison/Results/logs/SINGLE_CACHE/';
+folder='/home/tortelli/Comparison_New_Simulators/ndnSim_2.0/ns-3/logs/stdout/';
+%folder='/home/tortelli/ndn-simulator-comparison/Results/logs/SINGLE_CACHE/';
 ext='.out';
 
 minLimit = struct;
@@ -109,8 +109,6 @@ for g = 1:length(numAlphas)
             run = int2str(i);
             disp(sprintf('%s',strcat(simulatorStr{numSimulators(j)}, ' ' ,run)));
             nome_file=strcat(folder,'SIM=',simulatorStr{numSimulators(j)},'_T=',scenarioStr{numScenarios(1)},'_REQ=',reqStr,'_M=',catalogStr{numCatalogs(1)},'_C=',ratioStr{numRatios(1)},'_L=',lambdaStr{numLambdas(1)},'_A=',alphaStr{numAlphas(g)},'_R=',run,ext);
-	    %nome_file=strcat(folder,'SIM=',simulatorStr{numSimulators(j)},'_T=',scenarioStr{numScenarios(1)},'_M=',catalogStr{numCatalogs(1)},'_C=',ratioStr{numRatios(1)},'_L=',lambdaStr{numLambdas(1)},'_A=',alphaStr{numAlphas(g)},'_R=',run,ext);
-            %nome_file
 	        disp(sprintf('%s', nome_file));
 	        fileID = fopen(nome_file);
             scenarioImport.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = textscan(fileID,'%d32 %d8');
@@ -129,25 +127,6 @@ end
 
 clear scenarioImport;
 clear limitRequests;
-
-% minLimit = struct;
-% 
-% for g=1:length(numAlphas)
-%     minLimit.(alphaStrCompl{numAlphas(g)}) = officialNumRequests;
-% end
-
-% Search the minimum number of requests between the simulated scenarios, and reduce the dimension of the matrices accordingly 
-
-% for g=1:length(numAlphas)
-%     for j = 1:length(numSimulators)
-%         for i=0:simRuns-1
-%             if (limitRequests.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(i+1,1) < minLimit.(alphaStrCompl{numAlphas(g)}))
-%                 minLimit.(alphaStrCompl{numAlphas(g)}) = limitRequests.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(i+1,1);
-%             end
-%         end
-%     end
-% end
-
 
 for g=1:length(numAlphas)
     for j = 1:length(numSimulators)
@@ -206,15 +185,8 @@ for g = 1:length(numAlphas)
     cont95.(alphaStrCompl{numAlphas(g)}) = find(czipf.(alphaStrCompl{numAlphas(g)})>=.95,1);
 end
 
-%czipf = cumsum(zipf);
-%cont50 = find(czipf>=.50,1);
-%cont75 = find(czipf>=.75,1);
-%cont90 = find(czipf>=.90,1);
-%cont95 = find(czipf>=.95,1);
 
-
-% Struct to accomodate the total probability of hit ratio and the Phit for
-% each content
+% Struct for Phit
 
 pHitTotalRuns = struct;
 pHitContentsRuns = struct; 
@@ -254,7 +226,7 @@ clear contentID;
 clear hitDistance;
 
 
-
+% Calculating the final pHits, both Total and for each content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for g=1:length(numAlphas)
@@ -267,10 +239,43 @@ for g=1:length(numAlphas)
     end
 end
 
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        for i = 0:simRuns-1
+            pHitTotalRuns.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(i+1,1) = pHitTotalRuns.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(i+1,1) / minLimit.(alphaStrCompl{numAlphas(g)});
+        end
+    end
+end
+
+pHitTotalMean = struct;
+pHitContentsMean = struct;
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        pHitTotalMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = mean(pHitTotalRuns.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(:,1));
+    end
+end
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('mean') = zeros(catalog, 1);
+        pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('std') = zeros(catalog, 1);
+        pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('conf') = zeros(catalog, 1);
+    end
+end
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        for z = 1:catalog
+            pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('mean')(z,1) = mean(pHitContentsRuns.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('std')(z,1) = std(pHitContentsRuns.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('conf')(z,1) = tStudent(1, simRuns-1) * ( pHitContentsMean.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}).('std')(z,1) / sqrt(simRuns));
+        end
+    end
+end
 
 
-% Calculating the function f(x,che) = (che - x)/che, both for pHit and for
-% pHitNormalized
+% Calculating the function f(x,che) = (che - x)/che, both Total and for each run.
 
 
 % ***** RUNS ******
@@ -291,20 +296,36 @@ for g=1:length(numAlphas)
     end
 end
 
+% ***** MEAN ******
+
+fForPhit_MEAN = struct;
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+    fForPhit_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+    end
+end
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        for z = 1:catalog
+            fForPhit_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = mean(fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+        end
+    end
+end
 
 
-%% NEW ERROR PLOT
 
-
-% Expected F for ABS Phit E[|ei|]
+%% Calculate the Head Integral Error (HIE) and the Tail Integral Error (TIE)
 
 % ***** RUNS ******
 
+TAIL_INTEGRAL_ERROR_RUNS = struct;
+HEAD_INTEGRAL_ERROR_RUNS = struct;
 
-expectAbsFforPhit_RUNS = struct;
 for g=1:length(numAlphas)
     for j = 1:length(numSimulators)
-        expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, simRuns);
+        TAIL_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, simRuns);
+        HEAD_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, simRuns);
     end
 end
 
@@ -313,19 +334,12 @@ for g=1:length(numAlphas)
         for k = 1:simRuns
             for z = 1:catalog
                 if z < catalog
-                    expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = mean(abs(fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z+1:catalog,k)));
+                    TAIL_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = mean(abs(fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z+1:catalog,k)));
                 else
-                    expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k);
+                    TAIL_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k);
                 end
             end
         end
-    end
-end
-
-expectAbsFforPhit_RUNS_HEAD = struct;
-for g=1:length(numAlphas)
-    for j = 1:length(numSimulators)
-        expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, simRuns);
     end
 end
 
@@ -333,81 +347,92 @@ for g=1:length(numAlphas)
     for j = 1:length(numSimulators)
         for k = 1:simRuns
             for z = 1:catalog
-                expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = mean(abs(fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(1:z,k)));
+                HEAD_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,k) = mean(abs(fForPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(1:z,k)));
             end
+        end
+    end
+end
+
+TAIL_INTEGRAL_ERROR_MEAN = struct;
+TAIL_INTEGRAL_ERROR_STD = struct;
+TAIL_INTEGRAL_ERROR_CONF = struct;
+HEAD_INTEGRAL_ERROR_MEAN = struct;
+HEAD_INTEGRAL_ERROR_STD = struct;
+HEAD_INTEGRAL_ERROR_CONF = struct;
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+        TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+        TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+        HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+        HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+        HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(catalog, 1);
+    end
+end
+
+for g=1:length(numAlphas)
+    for j = 1:length(numSimulators)
+        for z = 1:catalog
+            TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = mean(TAIL_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = std(TAIL_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = tStudent(1, simRuns-1) * TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1)/sqrt(simRuns);
+            HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = mean(HEAD_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = std(HEAD_INTEGRAL_ERROR_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,:));
+            HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1) = tStudent(1, simRuns-1) * HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(z,1)/sqrt(simRuns);
         end
     end
 end
 
 
 
-% Calculating the function f() for significative contents, i.e., p50, p75,
-% p90, p95
+
+% Calculating the Integral Errors for some representative percentile, i.e., p50, p75, p90, p95
+TAIL_INTEGRAL_ERROR_p50_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p50_CONF = struct;
+HEAD_INTEGRAL_ERROR_p50_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p50_CONF = struct;
+
+TAIL_INTEGRAL_ERROR_p75_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p75_CONF = struct;
+HEAD_INTEGRAL_ERROR_p75_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p75_CONF = struct;
+
+TAIL_INTEGRAL_ERROR_p90_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p90_CONF = struct;
+HEAD_INTEGRAL_ERROR_p90_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p90_CONF = struct;
+
+TAIL_INTEGRAL_ERROR_p95_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p95_CONF = struct;
+HEAD_INTEGRAL_ERROR_p95_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p95_CONF = struct;
+
 
 f50_REQ_1mln_CONF = struct;
 f50_REQ_1mln_HEAD_CONF = struct;
 for g=1:length(numAlphas)
     for j = 1:length(numSimulators)        
-        f50_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-        f50_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
+        TAIL_INTEGRAL_ERROR_p50_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p50_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p50_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p50_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+
+        TAIL_INTEGRAL_ERROR_p75_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p75_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p75_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p75_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+
+        TAIL_INTEGRAL_ERROR_p90_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p90_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p90_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p90_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+    
+        TAIL_INTEGRAL_ERROR_p95_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p95_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p95_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p95_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
     end
 end
-
-
-
-f75_REQ_1mln_CONF = struct;
-f75_REQ_1mln_HEAD_CONF = struct;
-for g=1:length(numAlphas)
-    for j = 1:length(numSimulators)        
-        f75_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-        f75_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-    end
-end
-
-f90_REQ_1mln_CONF = struct;
-f90_REQ_1mln_HEAD_CONF = struct;
-for g=1:length(numAlphas)
-    for j = 1:length(numSimulators)        
-        f90_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-        f90_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-    end
-end
-
-f95_REQ_1mln_CONF = struct;
-f95_REQ_1mln_HEAD_CONF = struct;
-for g=1:length(numAlphas)
-    for j = 1:length(numSimulators)        
-        f95_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-        f95_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = tStudent(1, simRuns-1) * (std(expectAbsFforPhit_RUNS_HEAD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),:))/sqrt(simRuns));
-    end
-end
-
-
-
-f50_REQ_1mln_VECT_CONF = zeros(1, length(numSimulators));
-f50_REQ_1mln_HEAD_VECT_CONF = zeros(1, length(numSimulators));
-f75_REQ_1mln_VECT_CONF = zeros(1, length(numSimulators));
-f75_REQ_1mln_HEAD_VECT_CONF = zeros(1, length(numSimulators));
-f90_REQ_1mln_VECT_CONF = zeros(1, length(numSimulators));
-f90_REQ_1mln_HEAD_VECT_CONF = zeros(1, length(numSimulators));
-f95_REQ_1mln_VECT_CONF = zeros(1, length(numSimulators));
-f95_REQ_1mln_DROP_HEAD_VECT_CONF = zeros(1, length(numSimulators));
-
-for g=1:length(numAlphas)
-    for j = 1:length(numSimulators)
-        f50_REQ_1mln_VECT_CONF(1,j) = f50_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-        f50_REQ_1mln_HEAD_VECT_CONF(1,j) = f50_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-
-        f75_REQ_1mln_VECT_CONF(1,j) = f75_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-        f75_REQ_1mln_HEAD_VECT_CONF(1,j) = f75_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-
-        f90_REQ_1mln_VECT_CONF(1,j) = f90_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-        f90_REQ_1mln_HEAD_VECT_CONF(1,j) = f90_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-
-        f95_REQ_1mln_VECT_CONF(1,j) = f95_REQ_1mln_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-        f95_REQ_1mln_HEAD_VECT_CONF(1,j) = f95_REQ_1mln_HEAD_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)});
-    end
-end
-
 
 save(stringOutput);
