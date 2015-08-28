@@ -42,7 +42,7 @@ alphaStrCompl{4} = 'alpha_12';
 
 alphaValues = [0.6 0.8 1 1.2];
 
-simRuns = 10;
+simRuns = 2;
 numRequests = 1001000;
 officialNumRequests = 1000000;
 reqStr = '1000000';
