@@ -226,7 +226,7 @@ RESULTS_FORMAT = 'PICKLE'
 
 # Number of times each experiment is replicated
 # This is necessary for extracting confidence interval of selected metrics
-N_REPLICATIONS = 3
+N_REPLICATIONS = 2
 
 # List of metrics to be measured in the experiments
 # The implementation of data collectors are located in ./icaurs/execution/collectors.py
@@ -267,7 +267,7 @@ ALPHA = [1.0]
 
 # Total size of network cache as a fraction of content population
 # Remove sizes not needed
-NETWORK_CACHE = [0.004, 0.002]
+NETWORK_CACHE = [0.01]
 
 
 # List of topologies tested
@@ -278,7 +278,7 @@ NETWORK_CACHE = [0.004, 0.002]
 #        'WIDE',
 #        'GARR',
 #        'TISCALI',
-              ]
+#              ]
 TOPOLOGIES =  ['SINGLE_CACHE',]
 
 # List of caching and routing strategies
@@ -297,7 +297,7 @@ TOPOLOGIES =  ['SINGLE_CACHE',]
 #     'LCD',             # Leave Copy Down
 #     'RAND_CHOICE',     # Random choice: cache in one random cache on path
 #     'RAND_BERNOULLI',  # Random Bernoulli: cache randomly in caches on path
-             ]
+#             ]
 
 STRATEGIES = ['LCE',]
 
