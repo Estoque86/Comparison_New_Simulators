@@ -243,8 +243,8 @@ def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
         size = (float(nc)*n_contents)
         C = str(nc)
         fnss.add_stack(topology, cache, 'cache', {'size': size})
-        #fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
-        #print('[WROTE TOPOLOGY] T: %s, C: %s' % (T, C))
+        fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
+        print('[WROTE TOPOLOGY] T: %s, C: %s' % (T, C))
     
     receivers = []
     receivers.append(receiver)
