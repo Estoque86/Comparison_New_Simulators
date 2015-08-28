@@ -258,7 +258,7 @@ def topology_tree(k, h, delay=1, **kwargs):
 
 #     return IcnTopology(topology)
 
-    
+
 
 @register_topology_factory('SINGLE_CACHE')
 def topology_single_cache(n=3,nc=0.01, **kwargs):
@@ -285,7 +285,7 @@ def topology_single_cache(n=3,nc=0.01, **kwargs):
         fnss.add_stack(topology, v, 'router')
     
     fnss.set_weights_constant(topology, 1.0)
-    fnss.set_delays_constant(topology, delay, 'ms')
+    fnss.set_delays_constant(topology, 1, 'ms')
     for u, v in topology.edges_iter():
         topology.edge[u][v]['type'] = 'internal'
 
