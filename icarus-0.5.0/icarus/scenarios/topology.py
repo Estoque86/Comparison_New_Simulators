@@ -140,121 +140,157 @@ def topology_tree(k, h, delay=1, **kwargs):
     return IcnTopology(topology)
 
 
+# @register_topology_factory('SINGLE_CACHE')
+# def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
+#     """
+#         Parameters
+#         ----------
+#         scenario_id : str
+#         String identifying the scenario (will be in the filename)
+#         net_cache : float
+#         Size of network cache (sum of all caches) normalized by size of content
+#         population
+#         n_contents : int
+#         Size of content population
+#         alpha : float
+#         List of alpha of Zipf content distribution
+#         """
+#     rate = 4.0
+#     warmup = 0
+#     duration = 25000
+#     numnodes = 2
+    
+#     T = 'SINGLE_CACHE' # name of the topology
+#     topology = fnss.topologies.simplemodels.line_topology(numnodes)
+#     #topology = fnss.parse_topology_zoo(path.join(scenarios_dir, 'resources/Geant2012.graphml')).to_undirected()
+#     #topology = nx.connected_component_subgraphs(topology)[0]
+#     topology = list(nx.connected_component_subgraphs(topology))[0]
+
+    
+#     deg = nx.degree(topology)
+    
+#     nodes = topology.nodes()
+    
+#     #receivers = [v for v in topology.nodes() if deg[v] == 1] # 8 nodes
+#     receiver = nodes[0]
+    
+#     #caches = [v for v in topology.nodes() if deg[v] > 2] # 19 nodes
+#     cache = nodes[1]
+
+#     icr_candidates = [cache]
+#     topology.graph['icr_candidates'] = set(icr_candidates)
+    
+#     # attach sources to topology
+#     #source_attachments = [v for v in topology.nodes() if deg[v] == 2] # 13 nodes
+#     source_attachment = cache
+
+#     #sources = []
+#     #for v in source_attachments:
+#     #    u = v + 1000 # node ID of source
+#     #    topology.add_edge(v, u)
+#     #    sources.append(u)
+#     source = source_attachment + 1000
+#     topology.add_edge(source_attachment, source)
+    
+    
+#     #routers = [v for v in topology.nodes() if v not in caches + sources + receivers]
+#     #router = nodes[1]
+    
+#     # randomly allocate contents to sources
+#     #contents = dict([(v, []) for v in sources])
+#     #for c in range(1, n_contents + 1):
+#     #    s = choice(sources)
+#     #    contents[s].append(c)
+#     contents = dict([(source, [])])
+#     for c in range(1, n_contents + 1):
+#         contents[source].append(c)
+    
+#     #for v in sources:
+#     #    fnss.add_stack(topology, v, 'source', {'contents': contents[v]})
+#     #for v in receivers:
+#     #    fnss.add_stack(topology, v, 'receiver', {})
+#     #for v in routers:
+#     #    fnss.add_stack(topology, v, 'router', {})
+
+#     fnss.add_stack(topology, source, 'source', {'contents': contents[source]})
+#     fnss.add_stack(topology, receiver, 'receiver', {})
+#     #fnss.add_stack(topology, router, 'router', {})
+
+
+    
+#     # set weights and delays on all links
+#     fnss.set_weights_constant(topology, 1.0)
+#     #fnss.set_delays_constant(topology, internal_link_delay, 'ms')
+#     fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms')
+
+    
+#     # label links as internal or external
+#     #for u, v in topology.edges():
+#     #    if u in sources or v in sources:
+#     #        topology.edge[u][v]['type'] = 'external'
+#             # this prevents sources to be used to route traffic
+#             #fnss.set_weights_constant(topology, 1000.0, [(u, v)])
+#             #fnss.set_delays_constant(topology, external_link_delay, 'ms', [(u, v)])
+#         #else:
+#         #    topology.edge[u][v]['type'] = 'internal'
+    
+#     topology.edge[source_attachment][source]['type'] = 'external'
+#     fnss.set_weights_constant(topology, 1000.0, [(source_attachment, source)])
+#     #fnss.set_delays_constant(topology, external_link_delay, 'ms', [(source_attachment, source)])
+#     fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms', [(source_attachment, source)])
+#     topology.edge[receiver][cache]['type'] = 'internal'
+#     #topology.edge[router][cache]['type'] = 'internal'
+    
+#     for nc in net_cache:
+#         #size = (float(nc)*n_contents)/len(caches) # size of a single cache
+#         size = (float(nc)*n_contents)
+#         C = str(nc)
+#         fnss.add_stack(topology, cache, 'cache', {'size': size})
+#         fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
+#         print('[WROTE TOPOLOGY] T: %s, C: %s' % (T, C))
+    
+#     receivers = []
+#     receivers.append(receiver)
+#     #for a in alpha:
+#     #    event_schedule = gen_req_schedule(receivers, rate, warmup, duration, n_contents, a)
+#     #    fnss.write_event_schedule(event_schedule, path.join(TOPOLOGY_RESOURCES_DIR, es_prefix + 'T=%s@A=%s' % (T, str(a)) + '.xml'))
+#     #    print('[WROTE SCHEDULE] T: %s, Alpha: %s, Events: %d' % (T, str(a), len(event_schedule)))
+
+#     return IcnTopology(topology)
+
+    
+
 @register_topology_factory('SINGLE_CACHE')
-def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
-    """
-        Parameters
-        ----------
-        scenario_id : str
-        String identifying the scenario (will be in the filename)
-        net_cache : float
-        Size of network cache (sum of all caches) normalized by size of content
-        population
-        n_contents : int
-        Size of content population
-        alpha : float
-        List of alpha of Zipf content distribution
-        """
-    rate = 4.0
-    warmup = 0
-    duration = 25000
-    numnodes = 2
+def topology_single_cache(n=3,nc=0.01, **kwargs):
+
     
     T = 'SINGLE_CACHE' # name of the topology
-    topology = fnss.topologies.simplemodels.line_topology(numnodes)
-    #topology = fnss.parse_topology_zoo(path.join(scenarios_dir, 'resources/Geant2012.graphml')).to_undirected()
-    #topology = nx.connected_component_subgraphs(topology)[0]
+    
+    topology = fnss.line_topology(n)
     topology = list(nx.connected_component_subgraphs(topology))[0]
 
+            
+    receivers = [0]
+    routers = [1]
+    sources = [2]
     
-    deg = nx.degree(topology)
-    
-    nodes = topology.nodes()
-    
-    #receivers = [v for v in topology.nodes() if deg[v] == 1] # 8 nodes
-    receiver = nodes[0]
-    
-    #caches = [v for v in topology.nodes() if deg[v] > 2] # 19 nodes
-    cache = nodes[1]
 
-    icr_candidates = [cache]
-    topology.graph['icr_candidates'] = set(icr_candidates)
+    topology.graph['icr_candidates'] = set(routers)
     
-    # attach sources to topology
-    #source_attachments = [v for v in topology.nodes() if deg[v] == 2] # 13 nodes
-    source_attachment = cache
-
-    #sources = []
-    #for v in source_attachments:
-    #    u = v + 1000 # node ID of source
-    #    topology.add_edge(v, u)
-    #    sources.append(u)
-    source = source_attachment + 1000
-    topology.add_edge(source_attachment, source)
+    for v in sources:
+        fnss.add_stack(topology, v, 'source')
+    for v in receivers:
+        fnss.add_stack(topology, v, 'receiver')
+    for v in routers:
+        fnss.add_stack(topology, v, 'router')
     
-    
-    #routers = [v for v in topology.nodes() if v not in caches + sources + receivers]
-    #router = nodes[1]
-    
-    # randomly allocate contents to sources
-    #contents = dict([(v, []) for v in sources])
-    #for c in range(1, n_contents + 1):
-    #    s = choice(sources)
-    #    contents[s].append(c)
-    contents = dict([(source, [])])
-    for c in range(1, n_contents + 1):
-        contents[source].append(c)
-    
-    #for v in sources:
-    #    fnss.add_stack(topology, v, 'source', {'contents': contents[v]})
-    #for v in receivers:
-    #    fnss.add_stack(topology, v, 'receiver', {})
-    #for v in routers:
-    #    fnss.add_stack(topology, v, 'router', {})
-
-    fnss.add_stack(topology, source, 'source', {'contents': contents[source]})
-    fnss.add_stack(topology, receiver, 'receiver', {})
-    #fnss.add_stack(topology, router, 'router', {})
-
-
-    
-    # set weights and delays on all links
     fnss.set_weights_constant(topology, 1.0)
-    #fnss.set_delays_constant(topology, internal_link_delay, 'ms')
-    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms')
+    fnss.set_delays_constant(topology, delay, 'ms')
+    for u, v in topology.edges_iter():
+        topology.edge[u][v]['type'] = 'internal'
 
-    
-    # label links as internal or external
-    #for u, v in topology.edges():
-    #    if u in sources or v in sources:
-    #        topology.edge[u][v]['type'] = 'external'
-            # this prevents sources to be used to route traffic
-            #fnss.set_weights_constant(topology, 1000.0, [(u, v)])
-            #fnss.set_delays_constant(topology, external_link_delay, 'ms', [(u, v)])
-        #else:
-        #    topology.edge[u][v]['type'] = 'internal'
-    
-    topology.edge[source_attachment][source]['type'] = 'external'
-    fnss.set_weights_constant(topology, 1000.0, [(source_attachment, source)])
-    #fnss.set_delays_constant(topology, external_link_delay, 'ms', [(source_attachment, source)])
-    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms', [(source_attachment, source)])
-    topology.edge[receiver][cache]['type'] = 'internal'
-    #topology.edge[router][cache]['type'] = 'internal'
-    
-    for nc in net_cache:
-        #size = (float(nc)*n_contents)/len(caches) # size of a single cache
-        size = (float(nc)*n_contents)
-        C = str(nc)
-        fnss.add_stack(topology, cache, 'cache', {'size': size})
-        fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
-        print('[WROTE TOPOLOGY] T: %s, C: %s' % (T, C))
-    
-    receivers = []
-    receivers.append(receiver)
-    #for a in alpha:
-    #    event_schedule = gen_req_schedule(receivers, rate, warmup, duration, n_contents, a)
-    #    fnss.write_event_schedule(event_schedule, path.join(TOPOLOGY_RESOURCES_DIR, es_prefix + 'T=%s@A=%s' % (T, str(a)) + '.xml'))
-    #    print('[WROTE SCHEDULE] T: %s, Alpha: %s, Events: %d' % (T, str(a), len(event_schedule)))
+    C = str(nc)
+    fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
 
     return IcnTopology(topology)
 
