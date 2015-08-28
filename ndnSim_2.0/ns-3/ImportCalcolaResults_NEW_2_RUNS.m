@@ -7,6 +7,7 @@
 %R = input ('Input the number of runs: ');
 
 % STRING 
+format long 
 
 stringOutput = 'DATA_SIM=ndnSIM_T=SINGLE_CACHE_RUNS_M=1e4_R=1e6_A=1.mat';
 
