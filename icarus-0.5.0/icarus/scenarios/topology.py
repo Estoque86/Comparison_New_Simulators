@@ -46,8 +46,8 @@ TOPOLOGY_RESOURCES_DIR = path.abspath(path.join(path.dirname(__file__),
                                                 path.pardir, path.pardir, 
                                                 'resources', 'topologies'))
 
-topo_prefix = ['TOPO_']
-es_prefix = ['ES_']
+topo_prefix = 'TOPO_'
+es_prefix = 'ES_'
 
 
 class IcnTopology(fnss.Topology):
