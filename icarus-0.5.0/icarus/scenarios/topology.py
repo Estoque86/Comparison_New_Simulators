@@ -160,7 +160,9 @@ def topology_single_cache(net_cache=[0.01], n_contents=10000, alpha=[1.0]):
     T = 'SINGLE_CACHE' # name of the topology
     topology = fnss.topologies.simplemodels.line_topology(numnodes)
     #topology = fnss.parse_topology_zoo(path.join(scenarios_dir, 'resources/Geant2012.graphml')).to_undirected()
-    topology = nx.connected_component_subgraphs(topology)[0]
+    #topology = nx.connected_component_subgraphs(topology)[0]
+    topology = list(nx.connected_component_subgraphs(topology))[0]
+
     
     deg = nx.degree(topology)
     
