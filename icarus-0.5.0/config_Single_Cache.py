@@ -231,12 +231,12 @@ N_REPLICATIONS = 1
 # List of metrics to be measured in the experiments
 # The implementation of data collectors are located in ./icaurs/execution/collectors.py
 # Remove collectors not needed
-DATA_COLLECTORS = [
-           'CACHE_HIT_RATIO',   # Measure cache hit ratio 
-           'LATENCY',           # Measure request and response latency (based on static link delays)
-           'LINK_LOAD',         # Measure link loads
-           'PATH_STRETCH',      # Measure path stretch
-                   ]
+DATA_COLLECTORS = []
+           #'CACHE_HIT_RATIO',   # Measure cache hit ratio 
+           #'LATENCY',           # Measure request and response latency (based on static link delays)
+           #'LINK_LOAD',         # Measure link loads
+           #'PATH_STRETCH',      # Measure path stretch
+           #        ]
 
 
 
@@ -263,7 +263,7 @@ CACHE_POLICY = 'LRU'
 
 # Zipf alpha parameter, remove parameters not needed
 #ALPHA = [0.6, 0.8, 1.0]
-ALPHA = [1.0]
+ALPHA = [1]
 
 # Total size of network cache as a fraction of content population
 # Remove sizes not needed
