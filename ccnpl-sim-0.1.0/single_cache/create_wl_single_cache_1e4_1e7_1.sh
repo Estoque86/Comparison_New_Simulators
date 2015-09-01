@@ -23,5 +23,5 @@ runs=1
 
 for i in `seq 0 $runs`
 do
-   /usr/bin/time -f "\n%E \t elapsed real time \n%U \t total CPU seconds used (user mode) \n%S \t total CPU seconds used by the system on behalf of the process \n%M \t memory (max resident set size) [kBytes] \n%x \t exit status"  -o ${infoDir}/Info_SIM_WL\=${sim}_T\=${T}_REQ\=${req}_M\=${M}_C\=${C}_L\=${lam}_A\=${alpha}_R\=${i}.txt  ../ccnpl-sim/cbnsim/bin/cbnwlgen -l $len7 -wtu $wtu -man_routing -files $file1 -prefix $prefix -clients $clients  > ${wlDir}/workload_1e4_1e7_${alpha}_${i}.wl 2>&1
+   /usr/bin/time -f "\n%E \t elapsed real time \n%U \t total CPU seconds used (user mode) \n%S \t total CPU seconds used by the system on behalf of the process \n%M \t memory (max resident set size) [kBytes] \n%x \t exit status"  -o ${infoDir}/Info_WL_SIM\=${sim}_T\=${T}_REQ\=${req}_M\=${M}_C\=${C}_L\=${lam}_A\=${alpha}_R\=${i}.txt  ../ccnpl-sim/cbnsim/bin/cbnwlgen -l $len7 -wtu $wtu -man_routing -files $file1 -prefix $prefix -clients $clients  > ${wlDir}/workload_1e4_1e7_${alpha}_${i}.wl 2>&1
 done
