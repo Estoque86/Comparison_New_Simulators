@@ -4,7 +4,7 @@
 #in topology file fileds 4,5 and 6 of the edge's list are: buffer size[kbit], propagation delay[unit measure depend on $3] and edge capacity[kbps]
 
 
-len7="2500e+03"
+len7="250e+03"
 wtu="1e-06"
 file1="catalog_zipf_1e4_1.dist"
 prefix="prefix_single_cache.dist"
