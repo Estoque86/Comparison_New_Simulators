@@ -11,7 +11,7 @@ T="SINGLE_CACHE"
 C=0.01
 M=10000
 req=1000000
-alpha=0.8
+alpha=1
 lam=4
 
 runs=9
