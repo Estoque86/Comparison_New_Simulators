@@ -9,7 +9,7 @@ wtu="1e-06"
 file1="catalog_zipf_1e4_1.dist"
 prefix="prefix_single_cache.dist"
 clients="clients_single_cache.dist"
-infoDir=infoSim/workload
+infoDir=infoSim/workload/R_1e7
 wlDir=workload
 
 T="SINGLE_CACHE"
