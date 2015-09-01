@@ -42,7 +42,7 @@ alphaStrCompl{4} = 'alpha_12';
 
 alphaValues = [0.6 0.8 1 1.2];
 
-simRuns = 2;
+simRuns = 10;
 numRequests = 1001000;
 officialNumRequests = 1000000;
 reqStr = '1000000';
@@ -60,7 +60,7 @@ numCatalogs = [1];
 numRatios = [1];
 numLambdas = [1];
 %numAlphas = [1 2 3 4];
-numAlphas = [2 3 4];
+numAlphas = [2];
 
 % Input folder (change according to num req)
 folder='/home/tortelli/Comparison_New_Simulators/Results/Single_Cache/R_1e6/logs/';
