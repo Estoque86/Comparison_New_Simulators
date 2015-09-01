@@ -4,7 +4,7 @@
 #in topology file fileds 4,5 and 6 of the edge's list are: buffer size[kbit], propagation delay[unit measure depend on $3] and edge capacity[kbps]
 
 
-len7="250e+03"
+len7="2500e+03"
 wtu="1e-06"
 file1="catalog_zipf_1e4_1.dist"
 prefix="prefix_single_cache.dist"
@@ -13,13 +13,14 @@ infoDir=infoSim/workload/R_1e7
 wlDir=workload/R_1e7
 
 T="SINGLE_CACHE"
+sim="CCNPL"
 C=0.01
 M=10000
 req=10000000
 alpha=1
 lam=4
 
-runs=0
+runs=9
 
 for i in `seq 0 $runs`
 do
