@@ -60,7 +60,7 @@ numCatalogs = [1];
 numRatios = [1];
 numLambdas = [1];
 %numAlphas = [1 2 3 4];
-numAlphas = [2];
+numAlphas = [2 3 4];
 
 % Input folder (change according to num req)
 folder='/home/tortelli/Comparison_New_Simulators/Results/Single_Cache/R_1e6/logs/';
