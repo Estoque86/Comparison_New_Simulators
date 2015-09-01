@@ -54,7 +54,7 @@ tStudent = [1.2 6.314 2.920 2.353 2.132 2.015 1.943 1.895 1.860 1.833 1.812 1.79
 
 % Effective values of simulated parameters
 
-numSimulators = [2 3];
+numSimulators = [3 2];
 numScenarios = [1];
 numCatalogs = [1];
 numRatios = [1];
