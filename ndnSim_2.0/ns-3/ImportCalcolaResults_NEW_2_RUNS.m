@@ -8,7 +8,7 @@
 
 % STRING 
 
-stringOutput = 'DATA_SIM=ndnSIM_T=SINGLE_CACHE_RUNS_M=1e4_R=1e6_A=1.mat';
+stringOutput = 'DATA_SIM=ndnSIM_Icarus_T=SINGLE_CACHE_M=1e4_R=1e6.mat';
 
 simulatorStr = cell(1,4);
 simulatorStr{1} = 'CCNSIM';
@@ -54,14 +54,18 @@ tStudent = [1.2 6.314 2.920 2.353 2.132 2.015 1.943 1.895 1.860 1.833 1.812 1.79
 
 % Effective values of simulated parameters
 
-numSimulators = [2];
+numSimulators = [2 3];
 numScenarios = [1];
 numCatalogs = [1];
 numRatios = [1];
 numLambdas = [1];
 %numAlphas = [1 2 3 4];
-numAlphas = [3];
+numAlphas = [2 3 4];
 
+% Input folder (change according to num req)
+folder='/home/tortelli/Comparison_New_Simulators/Results/Single_Cache/R_1e6/logs/';
+%folder='/home/tortelli/ndn-simulator-comparison/Results/logs/SINGLE_CACHE/';
+ext='.out';
 
 % Import Che Approx
 fileChePrefix = '/home/tortelli/ndn-simulator-comparison/Results/HitCheTeo_';
@@ -92,10 +96,6 @@ for g = 1:length(numAlphas)
         limitRequests.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = zeros(simRuns,1);
     end
 end
-
-folder='/home/tortelli/Comparison_New_Simulators/ndnSim_2.0/ns-3/logs/stdout/';
-%folder='/home/tortelli/ndn-simulator-comparison/Results/logs/SINGLE_CACHE/';
-ext='.out';
 
 minLimit = struct;
 
@@ -389,23 +389,31 @@ end
 
 % Calculating the Integral Errors for some representative percentile, i.e., p50, p75, p90, p95
 TAIL_INTEGRAL_ERROR_p50_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p50_STD = struct;
 TAIL_INTEGRAL_ERROR_p50_CONF = struct;
 HEAD_INTEGRAL_ERROR_p50_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p50_STD = struct;
 HEAD_INTEGRAL_ERROR_p50_CONF = struct;
 
 TAIL_INTEGRAL_ERROR_p75_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p75_STD = struct;
 TAIL_INTEGRAL_ERROR_p75_CONF = struct;
 HEAD_INTEGRAL_ERROR_p75_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p75_STD = struct;
 HEAD_INTEGRAL_ERROR_p75_CONF = struct;
 
 TAIL_INTEGRAL_ERROR_p90_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p90_STD = struct;
 TAIL_INTEGRAL_ERROR_p90_CONF = struct;
 HEAD_INTEGRAL_ERROR_p90_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p90_STD = struct;
 HEAD_INTEGRAL_ERROR_p90_CONF = struct;
 
 TAIL_INTEGRAL_ERROR_p95_MEAN = struct;
+TAIL_INTEGRAL_ERROR_p95_STD = struct;
 TAIL_INTEGRAL_ERROR_p95_CONF = struct;
 HEAD_INTEGRAL_ERROR_p95_MEAN = struct;
+HEAD_INTEGRAL_ERROR_p95_STD = struct;
 HEAD_INTEGRAL_ERROR_p95_CONF = struct;
 
 
@@ -414,23 +422,31 @@ f50_REQ_1mln_HEAD_CONF = struct;
 for g=1:length(numAlphas)
     for j = 1:length(numSimulators)        
         TAIL_INTEGRAL_ERROR_p50_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p50_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
         TAIL_INTEGRAL_ERROR_p50_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p50_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p50_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p50_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont50.(alphaStrCompl{numAlphas(g)}),1);
 
         TAIL_INTEGRAL_ERROR_p75_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p75_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
         TAIL_INTEGRAL_ERROR_p75_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p75_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p75_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p75_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont75.(alphaStrCompl{numAlphas(g)}),1);
 
         TAIL_INTEGRAL_ERROR_p90_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p90_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
         TAIL_INTEGRAL_ERROR_p90_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p90_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p90_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p90_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont90.(alphaStrCompl{numAlphas(g)}),1);
     
         TAIL_INTEGRAL_ERROR_p95_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
+        TAIL_INTEGRAL_ERROR_p95_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
         TAIL_INTEGRAL_ERROR_p95_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = TAIL_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p95_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_MEAN.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
+        HEAD_INTEGRAL_ERROR_p95_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_STD.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
         HEAD_INTEGRAL_ERROR_p95_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)}) = HEAD_INTEGRAL_ERROR_CONF.(alphaStrCompl{numAlphas(g)}).(simulatorStr{numSimulators(j)})(cont95.(alphaStrCompl{numAlphas(g)}),1);
     end
 end
