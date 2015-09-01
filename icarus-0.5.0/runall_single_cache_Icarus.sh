@@ -11,10 +11,10 @@ T="SINGLE_CACHE"
 C=0.01
 M=10000
 req=1000000
-alpha=1
+alpha=0.8
 lam=4
 
-runs=0
+runs=9
 
 for i in `seq 0 $runs`
 do

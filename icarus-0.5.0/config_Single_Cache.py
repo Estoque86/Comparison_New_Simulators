@@ -263,7 +263,7 @@ CACHE_POLICY = 'LRU'
 
 # Zipf alpha parameter, remove parameters not needed
 #ALPHA = [0.6, 0.8, 1.0]
-ALPHA = [1]
+ALPHA = [0.8]
 
 # Total size of network cache as a fraction of content population
 # Remove sizes not needed
