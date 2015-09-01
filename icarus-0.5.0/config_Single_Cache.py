@@ -253,7 +253,7 @@ N_CONTENTS = 1*10**4
 N_WARMUP_REQUESTS = 0*10**5
 
 # Number of content requests that are measured after warmup
-N_MEASURED_REQUESTS = 1*10**6
+N_MEASURED_REQUESTS = 1*10**7
 
 # Number of requests per second (over the whole network)
 REQ_RATE = 4.0
@@ -263,7 +263,7 @@ CACHE_POLICY = 'LRU'
 
 # Zipf alpha parameter, remove parameters not needed
 #ALPHA = [0.6, 0.8, 1.0]
-ALPHA = [1.2]
+ALPHA = [0.8]
 
 # Total size of network cache as a fraction of content population
 # Remove sizes not needed

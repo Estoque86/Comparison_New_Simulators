@@ -10,8 +10,8 @@ configFile=config_Single_Cache.py
 T="SINGLE_CACHE"
 C=0.01
 M=10000
-req=1000000
-alpha=1.2
+req=10000000
+alpha=0.8
 lam=4
 
 runs=9
