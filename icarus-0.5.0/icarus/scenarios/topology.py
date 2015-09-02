@@ -307,6 +307,53 @@ def topology_single_cache(n=2,nc=0.01, **kwargs):
 
     return IcnTopology(topology)
 
+@register_topology_factory('TANDEM')
+def topology_single_cache(n=3,nc=0.01, **kwargs):
+
+    
+    T = 'TANDEM' # name of the topology
+    
+    topology = fnss.line_topology(n)
+    topology = list(nx.connected_component_subgraphs(topology))[0]
+
+            
+    receivers = [0]
+    routers = [1, 2]
+    #sources = [2]
+    
+    source_attachment = routers[1];
+    source = source_attachment + 1000
+    topology.add_edge(source_attachment, source)
+
+    sources = [source]
+
+    topology.graph['icr_candidates'] = set(routers)
+    
+    fnss.add_stack(topology, source, 'source')
+
+    #for v in sources:
+    #    fnss.add_stack(topology, v, 'source')
+    for v in receivers:
+        fnss.add_stack(topology, v, 'receiver')
+    for v in routers:
+        fnss.add_stack(topology, v, 'router')
+    
+    fnss.set_weights_constant(topology, 1.0)
+    fnss.set_delays_constant(topology, INTERNAL_LINK_DELAY, 'ms')
+    for u, v in topology.edges_iter():
+        if u in sources or v in sources:
+            topology.edge[u][v]['type'] = 'external'
+            # this prevents sources to be used to route traffic
+            fnss.set_weights_constant(topology, 1000.0, [(u, v)])
+            fnss.set_delays_constant(topology, EXTERNAL_LINK_DELAY, 'ms', [(u, v)])
+        else:
+            topology.edge[u][v]['type'] = 'internal'
+
+    C = str(nc)
+    fnss.write_topology(topology, path.join(TOPOLOGY_RESOURCES_DIR, topo_prefix + 'T=%s@C=%s' % (T, C)  + '.xml'))
+
+    return IcnTopology(topology)
+
 
 @register_topology_factory('PATH')
 def topology_path(n, delay=1, **kwargs):

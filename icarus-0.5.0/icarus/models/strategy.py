@@ -504,10 +504,14 @@ class LeaveCopyEverywhere(Strategy):
             if self.view.has_cache(v):
                 if self.controller.get_content(v):
                     serving_node = v
-                    print('%s\t0\t%s' % (content, v))
+                    path = self.shortest_path[v][receiver]
+                    hc = len(path)
+                    print('%s\t0\t%s\t%s' % (content, v, hc))
                     break
                 else:
-                    print('%s\t1\t%s' % (content, v))
+                    path = self.shortest_path[v][receiver]
+                    hc = len(path)
+                    print('%s\t1\t%s' % (content, v, hc))
             # No cache hits, get content from source
             self.controller.get_content(v)
             serving_node = v
