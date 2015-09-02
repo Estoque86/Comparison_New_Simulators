@@ -110,7 +110,7 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
       std::cout << interest.getName().get(-1).toSequenceNumber() << "\t0" << std::endl;
       //std::cout << m_csFace.GetNode()->GetId() << std::endl;
       int hopCount = -1;
-      auto ns3PacketTag = interest.getTag<Ns3PacketTag>();
+      auto ns3PacketTag = interest->getTag<Ns3PacketTag>();
       if (ns3PacketTag != nullptr) {
         FwHopCountTag hopCountTag;
         if (ns3PacketTag->getPacket()->PeekPacketTag(hopCountTag)) {
