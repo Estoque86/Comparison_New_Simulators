@@ -511,7 +511,7 @@ class LeaveCopyEverywhere(Strategy):
                 else:
                     path = self.view.shortest_path(receiver,v)
                     hc = len(path)-2
-                    if hc == 1  # Miss at the second cache
+                    if hc == 1:  # Miss at the second cache
                         print('%s\t2' % (content))
             # No cache hits, get content from source
             self.controller.get_content(v)
