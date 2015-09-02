@@ -227,8 +227,7 @@ Consumer::OnData(shared_ptr<const Data> data)
     FwHopCountTag hopCountTag;
     if (ns3PacketTag->getPacket()->PeekPacketTag(hopCountTag)) {
       hopCount = hopCountTag.Get();
-      //NS_LOG_DEBUG("Hop count: " << hopCount);
-      std::cout << "Hop count: " << hopCount << std::endl;
+      NS_LOG_DEBUG("Hop count: " << hopCount);
     }
   }
 
