@@ -28,7 +28,6 @@
 #include "core/random.hpp"
 #include "face/null-face.hpp"
 #include "available-strategies.hpp"
-#include "ns3/node.h"
 
 #include <boost/random/uniform_int_distribution.hpp>
 
@@ -109,7 +108,7 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
       // *** HIT EVENT *** (HIT = 0 as hit distance)
       //std::cout << "HIT \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
       std::cout << interest.getName().get(-1).toSequenceNumber() << "\t0" << std::endl;
-      std::cout << inFace.GetNode()->GetId() << std::endl;
+      std::cout << m_csFace.GetNode()->GetId() << std::endl;
       
       const_cast<Data*>(csMatch)->setIncomingFaceId(FACEID_CONTENT_STORE);
       // XXX should we lookup PIT for other Interests that also match csMatch?
