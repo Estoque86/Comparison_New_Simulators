@@ -8,7 +8,7 @@
 
 % STRING 
 
-stringOutput = 'DATA_SIM=ndnSIM_Icarus_T=SINGLE_CACHE_M=1e4_R=1e6.mat';
+stringOutput = 'DATA_SIM=ndnSIM_Icarus_T=SINGLE_CACHE_M=1e4_R=1e7.mat';
 
 simulatorStr = cell(1,4);
 simulatorStr{1} = 'CCNSIM';
@@ -43,9 +43,9 @@ alphaStrCompl{4} = 'alpha_12';
 alphaValues = [0.6 0.8 1 1.2];
 
 simRuns = 10;
-numRequests = 1001000;
-officialNumRequests = 1000000;
-reqStr = '1000000';
+numRequests = 10010000;
+officialNumRequests = 10000000;
+reqStr = '10000000';
 catalog = 10000;
 IDs = 1:catalog;
 target = 100;
@@ -63,7 +63,7 @@ numLambdas = [1];
 numAlphas = [2 3 4];
 
 % Input folder (change according to num req)
-folder='/home/tortelli/Comparison_New_Simulators/Results/Single_Cache/R_1e6/logs/';
+folder='/home/tortelli/Comparison_New_Simulators/Results/Single_Cache/R_1e7/logs/';
 %folder='/home/tortelli/ndn-simulator-comparison/Results/logs/SINGLE_CACHE/';
 ext='.out';
 
