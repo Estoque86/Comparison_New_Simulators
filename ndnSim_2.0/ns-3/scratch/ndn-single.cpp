@@ -35,12 +35,6 @@ namespace ns3 {
  *      +----------+         10ms   +--------+          10ms  +----------+
  *
  *
- * Consumer requests data from producer with frequency 10 interests per second
- * (interests contain constantly increasing sequence number).
- *
- * For every received interest, producer replies with a data packet, containing
- * 1024 bytes of virtual payload.
- *
  * To run scenario and see what is happening, use the following command:
  *
  *     NS_LOG=ndn.Consumer:ndn.Producer ./waf --run=ndn-simple
