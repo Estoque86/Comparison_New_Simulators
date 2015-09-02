@@ -8,7 +8,7 @@
 
 % STRING 
 
-stringOutput = 'DATA_SIM=ndnSIM_Icarus_T=SINGLE_CACHE_M=1e4_R=1e7.mat';
+stringOutput = 'DATA_SIM=ndnSIM_Icarus_T=SINGLE_CACHE_M=1e4_R=1e6.mat';
 
 simulatorStr = cell(1,4);
 simulatorStr{1} = 'CCNSIM';
