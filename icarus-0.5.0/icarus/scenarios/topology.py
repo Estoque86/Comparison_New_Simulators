@@ -394,7 +394,7 @@ def topology_grid(nc=0.345, **kwargs):
                 receivers.append(x)
                 chosen_receivers += 1
             if chosen_receivers == num_receivers:
-            completed = True
+                completed = True
 
     # Placement of Routers
     routers = [v for v in nodes if v not in receivers]
