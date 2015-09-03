@@ -372,6 +372,9 @@ def topology_grid(nc=0.345, **kwargs):
     deg = nx.degree(topology)
     nodes = topology.nodes()
 
+    print "Number of NODES #"
+    print len(nodes)
+
             
     receivers = []
     routers = []
@@ -401,6 +404,11 @@ def topology_grid(nc=0.345, **kwargs):
 
     # Placement of Routers
     routers = [v for v in nodes if v not in receivers]
+
+    print "Number of CLIENTS #"
+    print len(receivers)
+    print "Number of ROUTERS #"
+    print len(routers)
 
     topology.graph['icr_candidates'] = set(routers)
     
