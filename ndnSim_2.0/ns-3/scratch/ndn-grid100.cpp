@@ -245,9 +245,9 @@ main(int argc, char* argv[])
   appTraceStr = ss.str();
   ss.str("");
   
-  //ndn::L3RateTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
+  ndn::L3RateTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
   ndn::CsTracer::InstallAll(csTraceStr, Seconds(simDuration));
-  ndn::AppDelayTracer::InstallAll(appTraceStr);
+  //ndn::AppDelayTracer::InstallAll(appTraceStr);
 
 
   Simulator::Stop (Seconds (simDuration));
