@@ -233,11 +233,16 @@ N_REPLICATIONS = 1
 # Remove collectors not needed
 DATA_COLLECTORS = [
            'CACHE_HIT_RATIO',   # Measure cache hit ratio 
-           'LATENCY',           # Measure request and response latency (based on static link delays)
-           'LINK_LOAD',         # Measure link loads
            'PATH_STRETCH',      # Measure path stretch
                    ]
 
+
+#DATA_COLLECTORS = [
+#           'CACHE_HIT_RATIO',   # Measure cache hit ratio 
+#           'LATENCY',           # Measure request and response latency (based on static link delays)
+#           'LINK_LOAD',         # Measure link loads
+#           'PATH_STRETCH',      # Measure path stretch
+#                   ]
 
 
 ########################## EXPERIMENTS CONFIGURATION ##########################
