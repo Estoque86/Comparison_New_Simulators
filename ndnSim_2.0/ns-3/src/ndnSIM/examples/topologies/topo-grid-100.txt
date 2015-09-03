@@ -1,0 +1,330 @@
+# topo-grid-100.txt
+
+#   /--------\	    /-\	        /-\
+#   |Consumer|<---->| |<------->| |
+#   \--------/	    \-/	        \-/
+#       ^   	     ^ 	         ^
+#       |            |           |   1Mbps/10ms delay
+#       v            v           v
+#      /-\          /-\         /-\
+#      | |<-------->| |<------->| |
+#      \-/          \-/         \-/
+#       ^   	     ^ 	         ^
+#       |            |           |
+#       v            v           v
+#      /-\	    /-\	     /--------\
+#      | |<-------->| |<---->|Producer|
+#      \-/          \-/      \--------/
+
+# any empty lines and lines starting with '#' symbol is ignored
+#
+# The file should contain exactly two sections: router and link, each starting with the corresponding keyword
+#
+# router section defines topology Nodes and their relative positions (e.g., to use in visualizer)
+router
+
+# each line in this section represents one router and should have the following data
+# Node  comment     yPos    xPos
+Node0   NA          1       1
+Node1   NA          1       2
+Node2   NA          1       3
+Node3   NA          1       4
+Node4   NA          1       5
+Node5   NA          1       6
+Node6   NA          1       7
+Node7   NA          1       8
+Node8   NA          1       9
+Node9   NA          1       10
+
+Node10   NA          2       1
+Node11   NA          2       2
+Node12   NA          2       3
+Node13   NA          2       4
+Node14   NA          2       5
+Node15   NA          2       6
+Node16   NA          2       7
+Node17   NA          2       8
+Node18   NA          2       9
+Node19   NA          2       10
+
+Node20   NA          3       1
+Node21   NA          3       2
+Node22   NA          3       3
+Node23   NA          3       4
+Node24   NA          3       5
+Node25   NA          3       6
+Node26   NA          3       7
+Node27   NA          3       8
+Node28   NA          3       9
+Node29   NA          3       10
+
+Node30   NA          4       1
+Node31   NA          4       2
+Node32   NA          4       3
+Node33   NA          4       4
+Node34   NA          4       5
+Node35   NA          4       6
+Node36   NA          4       7
+Node37   NA          4       8
+Node38   NA          4       9
+Node39   NA          4       10
+
+Node40   NA          5       1
+Node41   NA          5       2
+Node42   NA          5       3
+Node43   NA          5       4
+Node44   NA          5       5
+Node45   NA          5       6
+Node46   NA          5       7
+Node47   NA          5       8
+Node48   NA          5       9
+Node49   NA          5       10
+
+Node50   NA          6       1
+Node51   NA          6       2
+Node52   NA          6       3
+Node53   NA          6       4
+Node54   NA          6       5
+Node55   NA          6       6
+Node56   NA          6       7
+Node57   NA          6       8
+Node58   NA          6       9
+Node59   NA          6       10
+
+Node60   NA          7       1
+Node61   NA          7       2
+Node62   NA          7       3
+Node63   NA          7       4
+Node64   NA          7       5
+Node65   NA          7       6
+Node66   NA          7       7
+Node67   NA          7       8
+Node68   NA          7       9
+Node69   NA          7       10
+
+Node70   NA          8       1
+Node71   NA          8       2
+Node72   NA          8       3
+Node73   NA          8       4
+Node74   NA          8       5
+Node75   NA          8       6
+Node76   NA          8       7
+Node77   NA          8       8
+Node78   NA          8       9
+Node79   NA          8       10
+
+Node80   NA          9       1
+Node81   NA          9       2
+Node82   NA          9       3
+Node83   NA          9       4
+Node84   NA          9       5
+Node85   NA          9       6
+Node86   NA          9       7
+Node87   NA          9       8
+Node88   NA          9       9
+Node89   NA          9       10
+
+Node90   NA          10      1
+Node91   NA          10      2
+Node92   NA          10      3
+Node93   NA          10      4
+Node94   NA          10      5
+Node95   NA          10      6
+Node96   NA          10      7
+Node97   NA          10      8
+Node98   NA          10      9
+Node99   NA          10      10
+
+
+# Note that `Node` can be any string. It is possible to access to the Node by name using Names::Find, see examples.
+
+# link section defines point-to-point links between Nodes and characteristics of these links
+link
+
+# Each line should be in the following format (only first two are required, the rest can be omitted)
+# srcNode   dstNode     bandwidth   metric  delay   queue
+# bandwidth: link bandwidth
+# metric: routing metric
+# delay:  link delay
+# queue:  MaxPackets for transmission queue on the link (both directions)
+Node0	Node1	1Mbps	1    10ms    20
+Node1	Node2	1Mbps    1    10ms    20
+Node2    Node3    1Mbps    1    10ms    20
+Node3    Node4    1Mbps    1    10ms    20
+Node4    Node5    1Mbps    1    10ms    20
+Node5    Node6    1Mbps    1    10ms    20
+Node6    Node7    1Mbps    1    10ms    20
+Node7    Node8    1Mbps    1    10ms    20
+Node8    Node9    1Mbps    1    10ms    20
+Node10    Node11    1Mbps    1    10ms    20
+Node11    Node12    1Mbps    1    10ms    20
+Node12    Node13    1Mbps    1    10ms    20
+Node13    Node14    1Mbps    1    10ms    20
+Node14    Node15    1Mbps    1    10ms    20
+Node15    Node16    1Mbps    1    10ms    20
+Node16    Node17    1Mbps    1    10ms    20
+Node17    Node18    1Mbps    1    10ms    20
+Node18    Node19    1Mbps    1    10ms    20
+Node20    Node21    1Mbps    1    10ms    20
+Node21    Node22    1Mbps    1    10ms    20
+Node22    Node23    1Mbps    1    10ms    20
+Node23    Node24    1Mbps    1    10ms    20
+Node24    Node25    1Mbps    1    10ms    20
+Node25    Node26    1Mbps    1    10ms    20
+Node26    Node27    1Mbps    1    10ms    20
+Node27    Node28    1Mbps    1    10ms    20
+Node28    Node29    1Mbps    1    10ms    20
+Node30    Node31    1Mbps    1    10ms    20
+Node31    Node32    1Mbps    1    10ms    20
+Node32    Node33    1Mbps    1    10ms    20
+Node33    Node34    1Mbps    1    10ms    20
+Node34    Node35    1Mbps    1    10ms    20
+Node35    Node36    1Mbps    1    10ms    20
+Node36    Node37    1Mbps    1    10ms    20
+Node37    Node38    1Mbps    1    10ms    20
+Node38    Node39    1Mbps    1    10ms    20
+Node40    Node41    1Mbps    1    10ms    20
+Node41    Node42    1Mbps    1    10ms    20
+Node42    Node43    1Mbps    1    10ms    20
+Node43    Node44    1Mbps    1    10ms    20
+Node44    Node45    1Mbps    1    10ms    20
+Node45    Node46    1Mbps    1    10ms    20
+Node46    Node47    1Mbps    1    10ms    20
+Node47    Node48    1Mbps    1    10ms    20
+Node48    Node49    1Mbps    1    10ms    20
+Node50    Node51    1Mbps    1    10ms    20
+Node51    Node52    1Mbps    1    10ms    20
+Node52    Node53    1Mbps    1    10ms    20
+Node53    Node54    1Mbps    1    10ms    20
+Node54    Node55    1Mbps    1    10ms    20
+Node55    Node56    1Mbps    1    10ms    20
+Node56    Node57    1Mbps    1    10ms    20
+Node57    Node58    1Mbps    1    10ms    20
+Node58    Node59    1Mbps    1    10ms    20
+Node60    Node61    1Mbps    1    10ms    20
+Node61    Node62    1Mbps    1    10ms    20
+Node62    Node63    1Mbps    1    10ms    20
+Node63    Node64    1Mbps    1    10ms    20
+Node64    Node65    1Mbps    1    10ms    20
+Node65    Node66    1Mbps    1    10ms    20
+Node66    Node67    1Mbps    1    10ms    20
+Node67    Node68    1Mbps    1    10ms    20
+Node68    Node69    1Mbps    1    10ms    20
+Node70    Node71    1Mbps    1    10ms    20
+Node71    Node72    1Mbps    1    10ms    20
+Node72    Node73    1Mbps    1    10ms    20
+Node73    Node74    1Mbps    1    10ms    20
+Node74    Node75    1Mbps    1    10ms    20
+Node75    Node76    1Mbps    1    10ms    20
+Node76    Node77    1Mbps    1    10ms    20
+Node77    Node78    1Mbps    1    10ms    20
+Node78    Node79    1Mbps    1    10ms    20
+Node80    Node81    1Mbps    1    10ms    20
+Node81    Node82    1Mbps    1    10ms    20
+Node82    Node83    1Mbps    1    10ms    20
+Node83    Node84    1Mbps    1    10ms    20
+Node84    Node85    1Mbps    1    10ms    20
+Node85    Node86    1Mbps    1    10ms    20
+Node86    Node87    1Mbps    1    10ms    20
+Node87    Node88    1Mbps    1    10ms    20
+Node88    Node89    1Mbps    1    10ms    20
+Node90    Node91    1Mbps    1    10ms    20
+Node91    Node92    1Mbps    1    10ms    20
+Node92    Node93    1Mbps    1    10ms    20
+Node93    Node94    1Mbps    1    10ms    20
+Node94    Node95    1Mbps    1    10ms    20
+Node95    Node96    1Mbps    1    10ms    20
+Node96    Node97    1Mbps    1    10ms    20
+Node97    Node98    1Mbps    1    10ms    20
+Node98    Node99    1Mbps    1    10ms    20
+Node0    Node10    1Mbps    1    10ms    20
+Node10    Node20   1Mbps    1    10ms    20
+Node20    Node30    1Mbps    1    10ms    20
+Node30    Node40    1Mbps    1    10ms    20
+Node40    Node50    1Mbps    1    10ms    20
+Node50    Node60    1Mbps    1    10ms    20
+Node60    Node70    1Mbps    1    10ms    20
+Node70    Node80    1Mbps    1    10ms    20
+Node80    Node90    1Mbps    1    10ms    20
+Node1    Node11    1Mbps    1    10ms    20
+Node11    Node21    1Mbps    1    10ms    20
+Node21    Node31    1Mbps    1    10ms    20
+Node31    Node41    1Mbps    1    10ms    20
+Node41    Node51    1Mbps    1    10ms    20
+Node51    Node61    1Mbps    1    10ms    20
+Node61    Node71    1Mbps    1    10ms    20
+Node71    Node81    1Mbps    1    10ms    20
+Node81    Node91    1Mbps    1    10ms    20
+Node2    Node12    1Mbps    1    10ms    20
+Node12    Node22    1Mbps    1    10ms    20
+Node22    Node32   1Mbps    1    10ms    20
+Node32    Node42   1Mbps    1    10ms    20
+Node42    Node52    1Mbps    1    10ms    20
+Node52    Node62    1Mbps    1    10ms    20
+Node62    Node72    1Mbps    1    10ms    20
+Node72    Node82    1Mbps    1    10ms    20
+Node82    Node92    1Mbps    1    10ms    20
+Node3    Node13    1Mbps    1    10ms    20
+Node13    Node23    1Mbps    1    10ms    20
+Node23    Node33    1Mbps    1    10ms    20
+Node33    Node43    1Mbps    1    10ms    20
+Node43    Node53    1Mbps    1    10ms    20
+Node53    Node63    1Mbps    1    10ms    20
+Node63    Node73    1Mbps    1    10ms    20
+Node73    Node83    1Mbps    1    10ms    20
+Node83    Node93    1Mbps    1    10ms    20
+Node4    Node14    1Mbps    1    10ms    20
+Node14    Node24    1Mbps    1    10ms    20
+Node24    Node34    1Mbps    1    10ms    20
+Node34    Node44    1Mbps    1    10ms    20
+Node44    Node54    1Mbps    1    10ms    20
+Node54    Node64    1Mbps    1    10ms    20
+Node64    Node74    1Mbps    1    10ms    20
+Node74    Node84    1Mbps    1    10ms    20
+Node84    Node94    1Mbps    1    10ms    20
+Node5    Node15    1Mbps    1    10ms    20
+Node15    Node25    1Mbps    1    10ms    20
+Node25    Node35    1Mbps    1    10ms    20
+Node35    Node45    1Mbps    1    10ms    20
+Node45    Node55    1Mbps    1    10ms    20
+Node55    Node65    1Mbps    1    10ms    20
+Node65    Node75    1Mbps    1    10ms    20
+Node75    Node85    1Mbps    1    10ms    20
+Node85    Node95    1Mbps    1    10ms    20
+Node6    Node16    1Mbps    1    10ms    20
+Node16    Node26    1Mbps    1    10ms    20
+Node26    Node36    1Mbps    1    10ms    20
+Node36    Node46    1Mbps    1    10ms    20
+Node46    Node56    1Mbps    1    10ms    20
+Node56    Node66    1Mbps    1    10ms    20
+Node66    Node76    1Mbps    1    10ms    20
+Node76    Node86    1Mbps    1    10ms    20
+Node86    Node96    1Mbps    1    10ms    20
+Node7    Node17    1Mbps    1    10ms    20
+Node17    Node27    1Mbps    1    10ms    20
+Node27    Node37    1Mbps    1    10ms    20
+Node37    Node47    1Mbps    1    10ms    20
+Node47    Node57    1Mbps    1    10ms    20
+Node57    Node67    1Mbps    1    10ms    20
+Node67    Node77    1Mbps    1    10ms    20
+Node77    Node87    1Mbps    1    10ms    20
+Node87    Node97    1Mbps    1    10ms    20
+Node8    Node18    1Mbps    1    10ms    20
+Node18    Node28    1Mbps    1    10ms    20
+Node28    Node38    1Mbps    1    10ms    20
+Node38    Node48    1Mbps    1    10ms    20
+Node48    Node58    1Mbps    1    10ms    20
+Node58    Node68    1Mbps    1    10ms    20
+Node68    Node78    1Mbps    1    10ms    20
+Node78    Node88    1Mbps    1    10ms    20
+Node88    Node98    1Mbps    1    10ms    20
+Node9    Node19    1Mbps    1    10ms    20
+Node19    Node29    1Mbps    1    10ms    20
+Node29    Node39    1Mbps    1    10ms    20
+Node39    Node49    1Mbps    1    10ms    20
+Node49    Node59    1Mbps    1    10ms    20
+Node59    Node69    1Mbps    1    10ms    20
+Node69    Node79    1Mbps    1    10ms    20
+Node79    Node89    1Mbps    1    10ms    20
+Node89    Node99    1Mbps    1    10ms    20
+
