@@ -375,7 +375,7 @@ def topology_grid(nc=0.345, **kwargs):
     routers = []
     #sources = [2]
     
-    # Chose the random repo
+    # Chose the random repository
     source_attachment = random.choice(nodes)
     source = source_attachment + 1000
     topology.add_edge(source_attachment, source)
