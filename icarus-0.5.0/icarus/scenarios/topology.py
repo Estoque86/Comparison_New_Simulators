@@ -365,7 +365,6 @@ def topology_grid(nc=0.345, **kwargs):
     
     topology = fnss.Topology(nx.grid_2d_graph(10,10))
 
-    topology = fnss.line_topology(n)
     topology = list(nx.connected_component_subgraphs(topology))[0]
     deg = nx.degree(topology)
     nodes = topology.nodes()
