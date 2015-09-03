@@ -14,7 +14,7 @@ req=10000000
 alpha=1
 lam=1
 
-runs=0
+runs=9
 
 for i in `seq 0 $runs`
 do
