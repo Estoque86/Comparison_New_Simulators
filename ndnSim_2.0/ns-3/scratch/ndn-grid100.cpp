@@ -155,7 +155,7 @@ main(int argc, char* argv[])
       }
     }
     consumersID->operator[](extractedConsumers) = randConsumer;
-    std::cout << "CHOSEN CONSUMER:\t" << consumersID->operator[](extractedConsumers)) << std::endl;
+    std::cout << "CHOSEN CONSUMER:\t" << consumersID->operator[](extractedConsumers) << std::endl;
     extractedConsumers = extractedConsumers + 1;
     if(extractedConsumers == consumersID->size())
     completeConsumers = true;
@@ -245,9 +245,9 @@ main(int argc, char* argv[])
   appTraceStr = ss.str();
   ss.str("");
   
-  L3RateTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
-  CsTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
-  AppDelayTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
+  ndn::L3RateTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
+  ndn::CsTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
+  ndn::AppDelayTracer::InstallAll(aggrTraceStr, Seconds(simDuration));
 
 
   Simulator::Stop (Seconds (simDuration));
