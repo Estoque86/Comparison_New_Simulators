@@ -17,11 +17,11 @@ C=0.005
 M=10000
 #L=200
 #simDuration=5000
-req=1000000
+req=10000
 
 for k in 1
 do
-	for z in 4 
+	for z in 1 
    	do
 		let "simDuration = $req / $z"
 		#simDuration=`expr $req/$z`
