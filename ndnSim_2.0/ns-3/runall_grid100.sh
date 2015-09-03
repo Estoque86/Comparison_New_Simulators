@@ -18,12 +18,14 @@ M=10000
 #L=200
 #simDuration=5000
 req=10000
+numClients=30
 
 for k in 1
 do
 	for z in 1 
    	do
-		let "simDuration = $req / $z"
+    #let "simDuration = $req / $z"
+		let "simDuration = $req / $numClients"
 		#simDuration=`expr $req/$z`
     echo $simDuration
 		let "realReq = $simDuration * $z"
