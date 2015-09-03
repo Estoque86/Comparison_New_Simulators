@@ -16,9 +16,9 @@ from __future__ import division
 from os import path
 from random import choice, expovariate
 
-
 import networkx as nx
 import fnss
+import random
 
 
 from icarus.registry import register_topology_factory
