@@ -106,13 +106,11 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
     }
     if (csMatch != 0) {
       // *** HIT EVENT *** (HIT = 0 as hit distance)
-      //std::cout << "HIT \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
-      if(inFace.isLocal())
-        std::cout << interest.getName().get(-1).toSequenceNumber() << "\t0" << std::endl;
-      else
-        std::cout << interest.getName().get(-1).toSequenceNumber() << "\t1" << std::endl;
+      //if(inFace.isLocal())
+      //  std::cout << interest.getName().get(-1).toSequenceNumber() << "\t0" << std::endl;
+      //else
+      //  std::cout << interest.getName().get(-1).toSequenceNumber() << "\t1" << std::endl;
 
-      //std::cout << m_csFace.GetNode()->GetId() << std::endl;
 
       const_cast<Data*>(csMatch)->setIncomingFaceId(FACEID_CONTENT_STORE);
       // XXX should we lookup PIT for other Interests that also match csMatch?
@@ -131,9 +129,8 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
   }
 
   // *** MISS EVENT *** (MISS = 1 as hit distance)
-  //std::cout << "MISS \t" << interest.getName().get(-1).toSequenceNumber() << std::endl;
-  if(!inFace.isLocal())
-    std::cout << interest.getName().get(-1).toSequenceNumber() << "\t2" << std::endl;
+  //if(!inFace.isLocal())
+  //  std::cout << interest.getName().get(-1).toSequenceNumber() << "\t2" << std::endl;
   
   // insert InRecord
   pitEntry->insertOrUpdateInRecord(inFace.shared_from_this(), interest);
