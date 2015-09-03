@@ -14,9 +14,12 @@ A valid ICN topology must have the following attributes:
 from __future__ import division
 
 from os import path
+from random import choice, expovariate
+
 
 import networkx as nx
 import fnss
+
 
 from icarus.registry import register_topology_factory
 
