@@ -362,7 +362,7 @@ def topology_tandem(n=3,nc=0.01, **kwargs):
 
 
 @register_topology_factory('GRID')
-def topology_grid(nc=0.345, **kwargs):
+def topology_grid(nc=0.35, **kwargs):
     
     T = 'GRID' # name of the topology
     

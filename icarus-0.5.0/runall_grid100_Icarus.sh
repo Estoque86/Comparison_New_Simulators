@@ -10,9 +10,9 @@ configFile=config_Grid100.py
 T="Grid100"
 C=0.005
 M=10000
-req=1000000
+req=10000000
 alpha=1
-lam=4
+lam=1
 
 runs=0
 

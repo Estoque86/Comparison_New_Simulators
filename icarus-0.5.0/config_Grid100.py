@@ -253,10 +253,10 @@ N_CONTENTS = 1*10**4
 N_WARMUP_REQUESTS = 0*10**5
 
 # Number of content requests that are measured after warmup
-N_MEASURED_REQUESTS = 1*10**6
+N_MEASURED_REQUESTS = 1*10**7
 
 # Number of requests per second (over the whole network)
-REQ_RATE = 4.0
+REQ_RATE = 1
 
 # Cache eviction policy
 CACHE_POLICY = 'LRU'
@@ -267,7 +267,7 @@ ALPHA = [1]
 
 # Total size of network cache as a fraction of content population
 # Remove sizes not needed
-NETWORK_CACHE = [0.345]
+NETWORK_CACHE = [0.35]
 
 
 # List of topologies tested
