@@ -4,7 +4,7 @@ main=./waf
 SCRIPTPATH=`pwd`
 sim="ndnSIM"
 
-runs=0
+runs=9
 logDir=logs
 infoDir=infoSim
 #net=`grep 'net=' $iniFile | awk '{print $3}' | awk -F '=' '{print $2}' | awk -F '}' '{print $1}'`
@@ -17,7 +17,7 @@ C=0.005
 M=10000
 #L=200
 #simDuration=5000
-req=10000
+req=10000000
 numClients=30
 
 for k in 1
