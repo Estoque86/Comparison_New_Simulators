@@ -375,14 +375,11 @@ def topology_grid(nc=0.345, **kwargs):
             
     receivers = []
     routers = []
-    source_attachments = []
     #sources = [2]
     
-    x = random.choice(nodes)
-    source_attachments.append(x)
 
-    source_attachment = source_attachments[0]
-    source = source_attachment + 1000
+    source_attachment = random.choice(nodes)
+    source = source_attachment + (1000,1000)
     topology.add_edge(source_attachment, source)
     sources = [source]
 
